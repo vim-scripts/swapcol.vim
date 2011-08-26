@@ -74,10 +74,10 @@ endfunction
 " Swap current column with behind
 function! SwapColWithBehind()
     let l:line = getline('.')
+    let l:len  = strlen(l:line)
     let l:col  = col('.')
     let l:i    = 0
     let l:list = []
-    let l:col  = a:col
 
     while l:i < l:len
         if strpart(l:line, l:i, 1) =~ '\s'
@@ -121,7 +121,7 @@ function! SwapColWithBehind()
     let l:list[l:cur]  = l:list[l:swap]
     let l:list[l:swap] = l:coltmp
 
-    call setline(a:linenum, join(l:list, ''))
+    call setline(line('.'), join(l:list, ''))
 endfunction
 
 " Swap current column with before
@@ -174,7 +174,7 @@ function! SwapColWithBefore()
     let l:list[l:cur]  = l:list[l:swap]
     let l:list[l:swap] = l:coltmp
 
-    call setline(a:linenum, join(l:list, ''))
+    call setline(line('.'), join(l:list, ''))
 endfunction
 
 " Swap two columns
