@@ -1,8 +1,8 @@
 " swapcol.vim: Swap two columns ( on one line or multiple lines )
-" Last Change: 2011-08-26 
+" Last Change: 2011-08-27 
 " Maintainer:  Tian Huixiong: <nedzqbear@gmail.com>
 " Licence:     This script is released under the Vim License.
-" Version:     2.1
+" Version:     2.2
 " Install:     
 "         Put this file in ~/.vim/plugin on Linux
 "         Or put it in $vim/vimfiles/plugin on Windows
@@ -13,14 +13,14 @@
 " Tutorial:
 "         Swap columns, the columns are separated by blank.
 "         Column maybe is word, or maybe not:
-"            \s,  list[2];  dict[3].  (example),  ^\s*$ 
 "            col1   col2   col3   col4   col5
-"
+"            command!  -nargs=*  -range  -complete=command
+"            
 "         1. Move cursor on col1, and press ]c, you will see:
 "            col2   col1   col3   col4   col5
 "
-"         2. Move cursor on col4, and press [c, you will see:
-"            col2   col1   col4   col3   col5
+"         2. Move cursor on -range and press [c, you will see:
+"            command!  -range  -nargs=*  -complete=command
 "
 "         3. Move cousor on column, means you can put cursor on any character
 "            of the column, not limit the first character.
@@ -29,7 +29,7 @@
 "            The map code is on the bottom.
 "
 "         5. You can swap columns on multiple lines. 
-"            Swap column 1 and column 3 on 5 lines.
+"            Swap column 1 and column 3 on five lines.
 "
 "            111  222  333  444  555      333  222  111  444  555
 "            111  222  333  444  555      333  222  111  444  555
@@ -40,9 +40,9 @@
 "            Step 1: select multiple lines in visual mode
 "                    press V (upper case)
 "                    and then use j or k to select lines
-"            Step 2: call function SwapCols(), like:
-"                    :'<,'>call SwapCols(1,3)  
-"                    When you press : , '<,'> will come out automatically.
+"            Step 2: call Swapcols like: 
+"                    :'<,'>Swapcols 1 3 
+"                    When you press :   '<,'> will come out automatically.
 "            Setp 3: press Enter to continue, and you will get the result.
 "            
 "            Remember: the first column is column 1, not 0.
@@ -52,6 +52,8 @@ if exists("g:loaded_swapcol")
     finish
 endif
 let g:loaded_swapcol = 1
+
+command! -range -nargs=* -complete=command Swapcols <line1>,<line2>call SwapCols(<f-args>)
 
 function! GetToken(line, i, pat)
     let l:token = strpart(a:line, a:i, 1) 
@@ -259,6 +261,13 @@ nnoremap <silent>[c :call SwapColWithBefore()<cr>
 
 " Swap current column with behind
 nnoremap <silent>]c :call SwapColWithBehind()<cr>
+
+" --------------- For test ---------------
+ "111  222  333  444  555
+ "111  222  333  444  555
+ "111  222  333  444  555
+ "111  222  333  444  555
+ "111  222  333  444  555
 
 
 
